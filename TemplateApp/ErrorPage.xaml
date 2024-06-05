@@ -1,0 +1,54 @@
+﻿<Page
+    x:Class="SafeCube.ErrorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Materials="using:CubeKit.UI.Materials"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:icons="using:Fluent.Icons"
+    xmlns:local="using:SafeCube"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    Background="Black"
+    mc:Ignorable="d">
+    <Grid x:Name="Error">
+        <StackPanel
+            Margin="50,50,50,200"
+            VerticalAlignment="Center"
+            Canvas.ZIndex="2">
+            <toolkit:DropShadowPanel Color="SkyBlue">
+                <TextBlock
+                    FontSize="128"
+                    Foreground="SkyBlue"
+                    Text=":(" />
+            </toolkit:DropShadowPanel>
+            <TextBlock
+                Margin="0,20,0,20"
+                FontSize="48"
+                FontWeight="SemiBold"
+                Text="Safe Cube 遇到错误。"
+                TextWrapping="WrapWholeWords" />
+            <TextBlock
+                x:Name="ExceptionText"
+                FontSize="40"
+                IsTextSelectionEnabled="True"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                TextWrapping="WrapWholeWords" />
+            <Button
+                Margin="0,12,0,0"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                Click="Home_Click"
+                Style="{ThemeResource ExperimentalToolbarButton}">
+                <StackPanel Orientation="Horizontal">
+                    <icons:FluentSymbolIcon
+                        Margin="0,0,4,0"
+                        VerticalAlignment="Center"
+                        Foreground="Red"
+                        Symbol="Bug24" />
+                    <TextBlock VerticalAlignment="Center">主页</TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <Materials:BloomView />
+    </Grid>
+
+</Page>

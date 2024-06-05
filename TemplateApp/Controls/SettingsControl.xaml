@@ -1,0 +1,243 @@
+﻿<UserControl
+    x:Class="SafeCube.Controls.SettingsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:SafeCube.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    d:DesignHeight="300"
+    d:DesignWidth="424"
+    mc:Ignorable="d">
+    <ScrollViewer VerticalScrollBarVisibility="Visible" VerticalScrollMode="Enabled">
+        <StackPanel Width="400" Padding="24,20,24,20">
+            <Grid>
+                <StackPanel HorizontalAlignment="Left">
+                    <TextBlock FontSize="14" FontWeight="SemiBold">关于</TextBlock>
+                    <TextBlock
+                        Margin="0,12,0,4"
+                        FontSize="18"
+                        FontWeight="SemiBold">
+                        Safe Cube
+                    </TextBlock>
+                    <TextBlock Opacity="0.7" Text="Version 1.2" />
+                </StackPanel>
+                <Button
+                    Width="120"
+                    Height="28"
+                    Padding="4,2,4,2"
+                    HorizontalAlignment="Right"
+                    Click="GitHub_Click"
+                    Content="GitHub Repo" />
+            </Grid>
+            <MenuFlyoutSeparator Margin="0,12,0,12" />
+            <Grid
+                Padding="8,12,8,12"
+                HorizontalAlignment="Stretch"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource MicaBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <StackPanel>
+                    <TextBlock FontSize="18">Safe Cube GitHub</TextBlock>
+                    <TextBlock FontSize="12" Opacity="0.7">来到开源网址！</TextBlock>
+                </StackPanel>
+                <Button
+                    Width="80"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Click="Discord_Click"
+                    Style="{StaticResource AccentButtonStyle}">
+                    跳转
+                </Button>
+            </Grid>
+            <Grid
+                Margin="0,8,0,0"
+                Padding="8,12,8,12"
+                HorizontalAlignment="Stretch"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource MicaBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <StackPanel>
+                    <TextBlock FontSize="18">Safe Cube Microsoft Store</TextBlock>
+                    <TextBlock FontSize="12" Opacity="0.7">查看 Safe Cube 的 Microsoft Store 主页！</TextBlock>
+                </StackPanel>
+                <Button
+                    Width="80"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Click="Twitter_Click"
+                    Style="{StaticResource AccentButtonStyle}">
+                    跳转
+                </Button>
+            </Grid>
+            <MenuFlyoutSeparator Margin="0,12,0,12" />
+            <TextBlock FontSize="16" Opacity="0.7">设置</TextBlock>
+            <Grid
+                Margin="4,8,0,4"
+                Padding="12,8,12,4"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource MicaBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <StackPanel HorizontalAlignment="Left">
+                    <TextBlock
+                        MaxWidth="220"
+                        Margin="0,0,0,4"
+                        FontWeight="SemiBold"
+                        Text="Windows Hello 身份验证" />
+                    <TextBlock
+                        x:Name="WindowsHelloText"
+                        MaxWidth="220"
+                        Opacity="0.7"
+                        Text="启动时需要 Windows Hello" />
+                </StackPanel>
+                <ToggleSwitch
+                    x:Name="WindowsHelloSwitch"
+                    Margin="4,4,-80,4"
+                    HorizontalAlignment="Right"
+                    IsOn="{x:Bind Settings.WindowsHello, Mode=TwoWay}"
+                    Style="{ThemeResource GlowSwitch}" />
+            </Grid>
+            <Grid
+                Margin="4,4,0,4"
+                Padding="12,4,12,4"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource MicaBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <StackPanel HorizontalAlignment="Left">
+                    <TextBlock
+                        MaxWidth="220"
+                        Margin="0,0,0,4"
+                        FontWeight="SemiBold"
+                        Text="模糊代码" />
+                    <TextBlock
+                        MaxWidth="220"
+                        Opacity="0.7"
+                        Text="当应用程序未聚焦时模糊代码" />
+                </StackPanel>
+                <ToggleSwitch
+                    x:Name="FocusBlur"
+                    Margin="4,4,-80,4"
+                    HorizontalAlignment="Right"
+                    IsOn="{x:Bind Settings.FocusBlur, Mode=TwoWay}"
+                    Style="{ThemeResource GlowSwitch}" />
+            </Grid>
+            <Grid
+                Margin="4,4,0,4"
+                Padding="12,4,12,4"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource MicaBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <StackPanel HorizontalAlignment="Left">
+                    <TextBlock
+                        MaxWidth="220"
+                        Margin="0,0,0,4"
+                        FontWeight="SemiBold"
+                        Text="启动时显示过滤器" />
+                    <TextBlock
+                        MaxWidth="220"
+                        Opacity="0.7"
+                        Text="默认显示隐私过滤器" />
+                </StackPanel>
+                <ToggleSwitch
+                    x:Name="LaunchBlur"
+                    Margin="4,4,-80,4"
+                    HorizontalAlignment="Right"
+                    IsOn="{x:Bind Settings.LaunchBlur, Mode=TwoWay}"
+                    Style="{ThemeResource GlowSwitch}" />
+            </Grid>
+            <Grid
+                Margin="4,4,0,4"
+                Padding="12,4,12,4"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource MicaBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <StackPanel HorizontalAlignment="Left">
+                    <TextBlock
+                        MaxWidth="220"
+                        Margin="0,0,0,4"
+                        FontWeight="SemiBold"
+                        Text="屏幕截图" />
+                    <TextBlock
+                        MaxWidth="220"
+                        Opacity="0.7"
+                        Text="切换屏幕捕获应用程序" />
+                </StackPanel>
+                <ToggleSwitch
+                    x:Name="ScreenRec"
+                    Margin="4,4,-80,4"
+                    HorizontalAlignment="Right"
+                    IsOn="{x:Bind Settings.CanRecord, Mode=TwoWay}"
+                    Style="{ThemeResource GlowSwitch}" />
+            </Grid>
+            <Grid
+                Margin="4,4,0,4"
+                Padding="12,4,12,4"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource MicaBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <StackPanel HorizontalAlignment="Left">
+                    <TextBlock
+                        MaxWidth="220"
+                        Margin="0,0,0,4"
+                        FontWeight="SemiBold"
+                        Text="Export keys" />
+                    <TextBlock
+                        MaxWidth="220"
+                        Opacity="0.7"
+                        Text="将密钥导出为 YAML" />
+                </StackPanel>
+                <Button
+                    Width="140"
+                    Margin="4,2,0,4"
+                    HorizontalAlignment="Right"
+                    Click="Export_Click"
+                    Content="Export" />
+            </Grid>
+            <Grid
+                Margin="4,4,0,0"
+                Padding="12,4,12,4"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource MicaBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <StackPanel HorizontalAlignment="Left">
+                    <TextBlock
+                        MaxWidth="220"
+                        Margin="0,0,0,4"
+                        FontWeight="SemiBold"
+                        Text="初始化" />
+                    <TextBlock
+                        MaxWidth="220"
+                        Opacity="0.7"
+                        Text="进入初始化页面" />
+                </StackPanel>
+                <Button
+                    Width="140"
+                    Margin="4,4,0,4"
+                    HorizontalAlignment="Right"
+                    Click="OOBE_Click"
+                    Content="Open" />
+            </Grid>
+            <MenuFlyoutSeparator Margin="0,12,0,12" />
+            <TextBlock FontSize="14" FontWeight="SemiBold">致谢</TextBlock>
+            <Grid Width="300" HorizontalAlignment="Left">
+                <StackPanel Margin="0,8,0,0">
+                    <TextBlock Opacity="0.7">开发者</TextBlock>
+                    <TextBlock Margin="0,12,0,12" Opacity="0.7">图标设计</TextBlock>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right">
+                    <HyperlinkButton Content="0x44614D696E67" NavigateUri="https://github.com/0x44614D696E67" />
+                    <HyperlinkButton Content="0x44614D696E67" NavigateUri="https://github.com/0x44614D696E67" />
+                </StackPanel>
+                <StackPanel />
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

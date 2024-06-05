@@ -1,0 +1,166 @@
+﻿<Page
+    x:Class="SafeCube.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Classes="using:SafeCube.Classes"
+    xmlns:Helpers="using:SafeCube.Helpers"
+    xmlns:Services="using:SafeCube.Services"
+    xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+    xmlns:controls="using:SafeCube.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:effects="using:TextBlockFX.Win2D.UWP.Effects"
+    xmlns:icons="using:Fluent.Icons"
+    xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:local="using:SafeCube"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:tbfx="using:TextBlockFX.Win2D.UWP"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    mc:Ignorable="d">
+    <Grid>
+        <Border
+            x:Name="AppTitleBar"
+            Height="40"
+            Margin="12,0,0,0"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Canvas.ZIndex="1"
+            IsHitTestVisible="True">
+            <StackPanel Orientation="Horizontal">
+                <Image
+                    x:Name="AppFontIcon"
+                    Width="16"
+                    Height="16"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Source="Assets/Square44x44Logo.png" />
+                <TextBlock
+                    x:Name="AppTitle"
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="Safe Cube" />
+            </StackPanel>
+        </Border>
+        <Grid Padding="32,48,32,48">
+            <Grid VerticalAlignment="Top">
+                <TextBlock FontSize="32" FontWeight="SemiBold">您的账户</TextBlock>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <ani:Explicit.Animations>
+                        <ani:AnimationSet x:Name="LoadAnimation">
+                            <ani:TranslationAnimation
+                                EasingMode="EaseInOut"
+                                EasingType="Cubic"
+                                From="0,32,0"
+                                To="0,0,0"
+                                Duration="0:0:2" />
+                        </ani:AnimationSet>
+                    </ani:Explicit.Animations>
+                    <interactivity:Interaction.Behaviors>
+                        <interactions:EventTriggerBehavior EventName="Loaded">
+                            <behaviors:StartAnimationAction Animation="{Binding ElementName=LoadAnimation}" />
+                        </interactions:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <Button
+                        x:Name="AddButton"
+                        IsEnabled="{x:Bind Helpers:UIHelper.CanAddNew(), Mode=OneWay}"
+                        IsTabStop="False"
+                        Loaded="AddButton_Loaded"
+                        Style="{ThemeResource ToolbarButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <icons:FluentSymbolIcon Symbol="Add20" />
+                            <TextBlock
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="添加" />
+                        </StackPanel>
+                        <Button.Flyout>
+                            <MenuFlyout Placement="Bottom">
+                                <MenuFlyoutSubItem Text="扫描 QR 码">
+                                    <MenuFlyoutItem Click="ScanQR_Click" Text="从相机" />
+                                    <MenuFlyoutItem Click="FromScreen_Click" Text="从屏幕" />
+                                </MenuFlyoutSubItem>
+                                <MenuFlyoutItem Click="EnterKey_Click" Text="键入密钥" />
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+                    <AppBarSeparator />
+                    <ToggleButton
+                        x:Name="PrivacyButton"
+                        Width="100"
+                        IsChecked="{x:Bind Settings.LaunchBlur, Mode=OneWay}"
+                        Style="{ThemeResource ExperimentalToolbarToggleButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <icons:FluentSymbolIcon Foreground="{ThemeResource HvidSortBrush}" 
+                                                    Symbol="{x:Bind Helpers:UIHelper.PrivacyToIcon(PrivacyButton.IsChecked), Mode=OneWay}" />
+                            <TextBlock
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                Foreground="{ThemeResource HvidSortBrush}"
+                                Text="{x:Bind Helpers:UIHelper.PrivacyToText(PrivacyButton.IsChecked), Mode=OneWay}" />
+                        </StackPanel>
+                    </ToggleButton>
+                    <AppBarSeparator />
+                    <Button Style="{ThemeResource SettingsToolbarButton}">
+                        <Button.Flyout>
+                            <Flyout FlyoutPresenterStyle="{ThemeResource MicaFlyoutStyle}">
+                                <controls:SettingsControl />
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <TextBlock
+                x:Name="CapturingText"
+                Margin="0,32,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="24"
+                FontWeight="SemiBold"
+                Text="捕获屏幕上的二维码"
+                Visibility="Collapsed" />
+            <GridView
+                x:Name="AccountsView"
+                Margin="-8,86,-50,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                ItemContainerStyle="{ThemeResource CardContainer}"
+                ItemsSource="{x:Bind Services:CredentialService.CredentialList, Mode=OneWay}"
+                SelectionChanged="AccountsView_SelectionChanged"
+                SelectionMode="Single">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="Classes:VaultItem">
+                        <controls:AccountControl AccountVaultItem="{x:Bind}" InAppNotificationComponent="{Binding ElementName=InAppNotificationComponent}" />
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+                <GridView.ItemContainerTransitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition IsStaggeringEnabled="True" />
+                        <AddDeleteThemeTransition />
+                        <ContentThemeTransition />
+                    </TransitionCollection>
+                </GridView.ItemContainerTransitions>
+
+            </GridView>
+        </Grid>
+        <Grid
+            x:Name="Filter"
+            Margin="0,126,0,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            x:Load="{x:Bind Helpers:UIHelper.NullBoolToBool(PrivacyButton.IsChecked), Mode=OneWay}"
+            Background="{ThemeResource MicaBrush}"
+            Canvas.ZIndex="4">
+            <Grid>
+                <Grid.Background>
+                    <media:BackdropBlurBrush Amount="240" />
+                </Grid.Background>
+            </Grid>
+        </Grid>
+        <toolkit:InAppNotification Name="InAppNotificationComponent" />
+    </Grid>
+</Page>
